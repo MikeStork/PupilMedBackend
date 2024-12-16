@@ -34,7 +34,7 @@ public class VisitService {
     public Visit update(Visit visit){
         Optional<Visit> found_visit = visitRepository.findById(visit.getId());
         if(found_visit.isEmpty()){
-            throw new RuntimeException("USER/UPDATE: Visit not found");
+            throw new RuntimeException("VISIT/UPDATE: Visit not found");
         }
         Visit visitToUpdate = found_visit.get();
         visitToUpdate.setCena(visit.getCena());
@@ -50,9 +50,9 @@ public class VisitService {
     public void delete(int id){
         Optional<Visit> found_user = visitRepository.findById(id);
         if(found_user.isEmpty()){
-            throw new RuntimeException("USER/UPDATE: Visit not found");
+            throw new RuntimeException("VISIT/UPDATE: Visit not found");
         }
-        System.out.println("Attempting to delete user with id: " + id);  // Logowanie przed usunięciem
+        System.out.println("Attempting to delete visit with id: " + id);  // Logowanie przed usunięciem
         visitRepository.deleteById(id);  // Usuwanie wizyty
         System.out.println("Visit with id: " + id + " has been deleted");  // Logowanie po usunięciu
         visitRepository.flush();

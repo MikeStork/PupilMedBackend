@@ -23,7 +23,7 @@ public class VetService {
     public Vet findById(int id){
         Optional<Vet> vet = vetRepository.findById(id);
         if(vet.isEmpty()) {
-            throw new RuntimeException("Visit not found");
+            throw new RuntimeException("Vet not found");
         }else{
             return vet.get();
         }
@@ -52,8 +52,8 @@ public class VetService {
         if(found_user.isEmpty()){
             throw new RuntimeException("VET/DELETE: Vet not found");
         }
-        System.out.println("Attempting to delete user with id: " + id);  // Logowanie przed usunięciem
-        vetRepository.deleteById(id);  // Usuwanie zwierzaka
+        System.out.println("Attempting to delete vet with id: " + id);  // Logowanie przed usunięciem
+        vetRepository.deleteById(id);  // Usuwanie weterynarza
         System.out.println("Vet with id: " + id + " has been deleted");  // Logowanie po usunięciu
         vetRepository.flush();
 

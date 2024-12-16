@@ -1,0 +1,59 @@
+package com.pupilmed.pupilmedapi.service;
+
+import com.pupilmed.pupilmedapi.model.Owner;
+import com.pupilmed.pupilmedapi.model.Pet;
+import com.pupilmed.pupilmedapi.repository.OwnerRepository;
+import com.pupilmed.pupilmedapi.repository.PetRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class OwnerService {
+    private final OwnerRepository ownerRepository;
+
+    public OwnerService(OwnerRepository ownerRepository) {
+        this.ownerRepository = ownerRepository;
+    }
+
+    public Owner save(Owner owner){
+        return ownerRepository.saveAndFlush(owner);
+    }
+    public Owner findById(int id){
+        Optional<Owner> owner = ownerRepository.findById(id);
+        if(owner.isEmpty()) {
+            throw new RuntimeException("Owner not found");
+        }else{
+            return owner.get();
+        }
+    }
+    public List<Owner> findAll(){
+        return ownerRepository.findAll();
+    }
+
+    public Owner update(Owner owner){
+        Optional<Owner> found_owner = ownerRepository.findById(owner.getId());
+        if(found_owner.isEmpty()){
+            throw new RuntimeException("USER/UPDATE: Pet not found");
+        }
+        Owner ownerToUpdate = found_owner.get();
+        ownerToUpdate.setImie(owner.getImie());
+        ownerToUpdate.setNazwisko(owner.getNazwisko());
+        ownerToUpdate.setUzytkownikId(owner.getUzytkownikId());
+        return ownerRepository.saveAndFlush(ownerToUpdate);
+    }
+    @Transactional
+    public void delete(int id){
+        Optional<Owner> found_user = ownerRepository.findById(id);
+        if(found_user.isEmpty()){
+            throw new RuntimeException("OWNER/UPDATE: Pet not found");
+        }
+        System.out.println("Attempting to delete owner with id: " + id);  // Logowanie przed usunięciem
+        ownerRepository.deleteById(id);  // Usuwanie zwierzaka
+        System.out.println("Owner with id: " + id + " has been deleted");  // Logowanie po usunięciu
+        ownerRepository.flush();
+
+    }
+}

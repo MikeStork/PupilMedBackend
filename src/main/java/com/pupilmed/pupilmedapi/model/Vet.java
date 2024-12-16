@@ -4,10 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
+
 @Entity
 @Table(name = "weterynarz")
-@Getter
 public class Vet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,4 +21,53 @@ public class Vet {
     private String adresKliniki;
     @Column(name = "uzytkownikid")
     private int uzytkownikid;
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getImie() {
+        return imie;
+    }
+
+    public void setImie(String imie) {
+        this.imie = imie;
+    }
+
+    public String getNazwisko() {
+        return nazwisko;
+    }
+
+    public void setNazwisko(String nazwisko) {
+        this.nazwisko = nazwisko;
+    }
+
+    public String getNazwaKliniki() {
+        return nazwaKliniki;
+    }
+
+    public void setNazwaKliniki(String nazwaKliniki) {
+        this.nazwaKliniki = nazwaKliniki;
+    }
+
+    public String getAdresKliniki() {
+        return adresKliniki;
+    }
+
+    public void setAdresKliniki(String adresKliniki) {
+        this.adresKliniki = adresKliniki;
+    }
+
+    public int getUzytkownikid() {
+        return uzytkownikid;
+    }
+
+    public void setUzytkownikid(int uzytkownikid) {
+        this.uzytkownikid = uzytkownikid;
+    }
 }
