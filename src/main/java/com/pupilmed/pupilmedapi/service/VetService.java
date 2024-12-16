@@ -16,9 +16,10 @@ public class VetService {
         this.vetRepository = vetRepository;
     }
 
+    @Transactional
 
     public Vet save(Vet user){
-        return vetRepository.saveAndFlush(user);
+        return vetRepository.save(user);
     }
     public Vet findById(int id){
         Optional<Vet> vet = vetRepository.findById(id);
@@ -32,6 +33,7 @@ public class VetService {
         return vetRepository.findAll();
     }
 
+    @Transactional
     public Vet update(Vet vet){
         Optional<Vet> found_vet = vetRepository.findById(vet.getId());
         if(found_vet.isEmpty()){
@@ -44,7 +46,7 @@ public class VetService {
         vetToUpdate.setAdresKliniki(vet.getAdresKliniki());
         vetToUpdate.setUzytkownikid(vet.getUzytkownikid());
 
-        return vetRepository.saveAndFlush(vetToUpdate);
+        return vetRepository.save(vetToUpdate);
     }
     @Transactional
     public void delete(int id){

@@ -1,6 +1,7 @@
 package com.pupilmed.pupilmedapi.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +15,9 @@ import java.time.LocalDate;
 public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
+    @Column(name = "imie")
+    private String imie;
     @Column(name = "gatunek")
     private String gatunek;
     @Column(name = "rasa")
@@ -74,5 +77,13 @@ public class Pet {
 
     public void setWlascicielId(int wlascicielId) {
         this.wlascicielId = wlascicielId;
+    }
+
+    public String getImie() {
+        return imie;
+    }
+
+    public void setImie(String imie) {
+        this.imie = imie;
     }
 }

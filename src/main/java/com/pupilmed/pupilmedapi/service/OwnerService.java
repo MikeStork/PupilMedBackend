@@ -18,8 +18,9 @@ public class OwnerService {
         this.ownerRepository = ownerRepository;
     }
 
+    @Transactional
     public Owner save(Owner owner){
-        return ownerRepository.saveAndFlush(owner);
+        return ownerRepository.save(owner);
     }
     public Owner findById(int id){
         Optional<Owner> owner = ownerRepository.findById(id);
@@ -32,7 +33,7 @@ public class OwnerService {
     public List<Owner> findAll(){
         return ownerRepository.findAll();
     }
-
+    @Transactional
     public Owner update(Owner owner){
         Optional<Owner> found_owner = ownerRepository.findById(owner.getId());
         if(found_owner.isEmpty()){
@@ -42,7 +43,7 @@ public class OwnerService {
         ownerToUpdate.setImie(owner.getImie());
         ownerToUpdate.setNazwisko(owner.getNazwisko());
         ownerToUpdate.setUzytkownikId(owner.getUzytkownikId());
-        return ownerRepository.saveAndFlush(ownerToUpdate);
+        return ownerRepository.save(ownerToUpdate);
     }
     @Transactional
     public void delete(int id){

@@ -1,5 +1,6 @@
 package com.pupilmed.pupilmedapi.model;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 @Entity
@@ -7,7 +8,7 @@ import jakarta.persistence.*;
 public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column(name = "imie")
     private String imie;
     @Column(name = "nazwisko")

@@ -3,9 +3,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Null;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -19,7 +16,7 @@ import java.time.LocalTime;
 public class Visit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "data")
     private LocalDate data;
@@ -27,6 +24,8 @@ public class Visit {
     @Schema(type = "string", example = "12:00:00")
     @Column(name = "godzina")
     private LocalTime godzina;
+    @Column(name="typ_wizyty")
+    private String typWizyty;
     @Column(name = "cena")
     private int cena;
     @Column(name = "weterynarzid")
@@ -39,11 +38,11 @@ public class Visit {
     private Integer zalecenieid;
 
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -93,5 +92,13 @@ public class Visit {
 
     public void setZalecenieid(Integer zalecenieid) {
         this.zalecenieid = zalecenieid;
+    }
+
+    public String getTypWizyty() {
+        return typWizyty;
+    }
+
+    public void setTypWizyty(String typWizyty) {
+        this.typWizyty = typWizyty;
     }
 }

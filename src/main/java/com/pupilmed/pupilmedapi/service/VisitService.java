@@ -16,8 +16,15 @@ public class VisitService {
         this.visitRepository = visitRepository;
     }
 
-    public Visit save(Visit user){
-        return visitRepository.saveAndFlush(user);
+    @Transactional
+    public Visit save(Visit visit){
+        if (visit.getId() != null && visitRepository.existsById(visit.getId())) {
+            return visitRepository.save(visit);
+        } else {
+            // Nowa encja
+            visit.setId(null);
+            return visitRepository.save(visit);
+        }
     }
     public Visit findById(int id){
         Optional<Visit> user = visitRepository.findById(id);
@@ -31,6 +38,7 @@ public class VisitService {
         return visitRepository.findAll();
     }
 
+    @Transactional
     public Visit update(Visit visit){
         Optional<Visit> found_visit = visitRepository.findById(visit.getId());
         if(found_visit.isEmpty()){
@@ -43,8 +51,8 @@ public class VisitService {
         visitToUpdate.setWeterynarzid(visit.getWeterynarzid());
         visitToUpdate.setZwierzeid(visit.getZwierzeid());
         visitToUpdate.setZalecenieid(visit.getZalecenieid());
-
-        return visitRepository.saveAndFlush(visitToUpdate);
+        visitToUpdate.setTypWizyty(visit.getTypWizyty());
+        return visitRepository.save(visitToUpdate);
     }
     @Transactional
     public void delete(int id){

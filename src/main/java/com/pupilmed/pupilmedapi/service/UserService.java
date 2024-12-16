@@ -16,6 +16,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public User save(User user){
         return userRepository.save(user);
     }
@@ -31,6 +32,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    @Transactional
     public User update(User user){
         Optional<User> found_user = userRepository.findById(user.getId());
         if(found_user.isEmpty()){

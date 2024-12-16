@@ -1,5 +1,6 @@
 package com.pupilmed.pupilmedapi.model;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import lombok.Setter;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column(name = "numer_telefonu")
     private String numerTelefonu;
     @Column(name = "haslo")

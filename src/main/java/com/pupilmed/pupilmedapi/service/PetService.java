@@ -18,8 +18,9 @@ public class PetService {
         this.petRepository = petRepository;
     }
 
+    @Transactional
     public Pet save(Pet user){
-        return petRepository.saveAndFlush(user);
+        return petRepository.save(user);
     }
     public Pet findById(int id){
         Optional<Pet> pet = petRepository.findById(id);
@@ -33,19 +34,21 @@ public class PetService {
         return petRepository.findAll();
     }
 
+    @Transactional
     public Pet update(Pet pet){
         Optional<Pet> found_visit = petRepository.findById(pet.getId());
         if(found_visit.isEmpty()){
             throw new RuntimeException("PET/UPDATE: Pet not found");
         }
         Pet petToUpdate = found_visit.get();
+        petToUpdate.setImie(pet.getImie());
         petToUpdate.setRasa(pet.getRasa());
         petToUpdate.setGatunek(pet.getGatunek());
         petToUpdate.setUwagiOZwierzeciu(pet.getUwagiOZwierzeciu());
         petToUpdate.setWlascicielId(pet.getWlascicielId());
         petToUpdate.setDataUrodzenia(pet.getDataUrodzenia());
 
-        return petRepository.saveAndFlush(petToUpdate);
+        return petRepository.save(petToUpdate);
     }
     @Transactional
     public void delete(int id){
