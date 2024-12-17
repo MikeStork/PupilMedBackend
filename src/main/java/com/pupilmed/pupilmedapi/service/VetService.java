@@ -18,8 +18,8 @@ public class VetService {
 
     @Transactional
 
-    public Vet save(Vet user){
-        return vetRepository.save(user);
+    public Vet save(Vet vet){
+        return vetRepository.save(vet);
     }
     public Vet findById(int id){
         Optional<Vet> vet = vetRepository.findById(id);
@@ -50,8 +50,8 @@ public class VetService {
     }
     @Transactional
     public void delete(int id){
-        Optional<Vet> found_user = vetRepository.findById(id);
-        if(found_user.isEmpty()){
+        Optional<Vet> found_vet = vetRepository.findById(id);
+        if(found_vet.isEmpty()){
             throw new RuntimeException("VET/DELETE: Vet not found");
         }
         System.out.println("Attempting to delete vet with id: " + id);  // Logowanie przed usunięciem

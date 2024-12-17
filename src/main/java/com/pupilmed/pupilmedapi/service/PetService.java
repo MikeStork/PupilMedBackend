@@ -19,13 +19,13 @@ public class PetService {
     }
 
     @Transactional
-    public Pet save(Pet user){
-        return petRepository.save(user);
+    public Pet save(Pet pet){
+        return petRepository.save(pet);
     }
     public Pet findById(int id){
         Optional<Pet> pet = petRepository.findById(id);
         if(pet.isEmpty()) {
-            throw new RuntimeException("Pet not found");
+            throw new RuntimeException("PET/GET: Pet not found");
         }else{
             return pet.get();
         }
@@ -36,11 +36,11 @@ public class PetService {
 
     @Transactional
     public Pet update(Pet pet){
-        Optional<Pet> found_visit = petRepository.findById(pet.getId());
-        if(found_visit.isEmpty()){
+        Optional<Pet> found_pet = petRepository.findById(pet.getId());
+        if(found_pet.isEmpty()){
             throw new RuntimeException("PET/UPDATE: Pet not found");
         }
-        Pet petToUpdate = found_visit.get();
+        Pet petToUpdate = found_pet.get();
         petToUpdate.setImie(pet.getImie());
         petToUpdate.setRasa(pet.getRasa());
         petToUpdate.setGatunek(pet.getGatunek());
@@ -52,9 +52,9 @@ public class PetService {
     }
     @Transactional
     public void delete(int id){
-        Optional<Pet> found_user = petRepository.findById(id);
-        if(found_user.isEmpty()){
-            throw new RuntimeException("PET/UPDATE: Pet not found");
+        Optional<Pet> found_pet = petRepository.findById(id);
+        if(found_pet.isEmpty()){
+            throw new RuntimeException("PET/DELETE: Pet not found");
         }
         System.out.println("Attempting to delete pet with id: " + id);  // Logowanie przed usunięciem
         petRepository.deleteById(id);  // Usuwanie zwierzaka

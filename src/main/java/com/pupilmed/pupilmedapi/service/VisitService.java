@@ -17,21 +17,21 @@ public class VisitService {
     }
 
     @Transactional
-    public Visit save(Visit visit){
-        if (visit.getId() != null && visitRepository.existsById(visit.getId())) {
+    public Visit save(Visit visit) {
+//        if (visit.getId() != null && visitRepository.existsById(visit.getId())) {
+//            return visitRepository.save(visit);
+//        } else {
+//            // Nowa encja
+//            visit.setId(null);
+//        }
             return visitRepository.save(visit);
-        } else {
-            // Nowa encja
-            visit.setId(null);
-            return visitRepository.save(visit);
-        }
     }
     public Visit findById(int id){
-        Optional<Visit> user = visitRepository.findById(id);
-        if(user.isEmpty()) {
-            throw new RuntimeException("Visit not found");
+        Optional<Visit> visit = visitRepository.findById(id);
+        if(visit.isEmpty()) {
+            throw new RuntimeException("VISIT/GET: Visit not found");
         }else{
-            return user.get();
+            return visit.get();
         }
     }
     public List<Visit> findAll(){
@@ -56,9 +56,9 @@ public class VisitService {
     }
     @Transactional
     public void delete(int id){
-        Optional<Visit> found_user = visitRepository.findById(id);
-        if(found_user.isEmpty()){
-            throw new RuntimeException("VISIT/UPDATE: Visit not found");
+        Optional<Visit> found_visit = visitRepository.findById(id);
+        if(found_visit.isEmpty()){
+            throw new RuntimeException("VISIT/DELETE: Visit not found");
         }
         System.out.println("Attempting to delete visit with id: " + id);  // Logowanie przed usunięciem
         visitRepository.deleteById(id);  // Usuwanie wizyty

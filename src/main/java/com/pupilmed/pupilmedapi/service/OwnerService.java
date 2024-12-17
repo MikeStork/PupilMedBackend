@@ -25,7 +25,7 @@ public class OwnerService {
     public Owner findById(int id){
         Optional<Owner> owner = ownerRepository.findById(id);
         if(owner.isEmpty()) {
-            throw new RuntimeException("Owner not found");
+            throw new RuntimeException("OWNER/GET: Owner not found");
         }else{
             return owner.get();
         }
@@ -37,7 +37,7 @@ public class OwnerService {
     public Owner update(Owner owner){
         Optional<Owner> found_owner = ownerRepository.findById(owner.getId());
         if(found_owner.isEmpty()){
-            throw new RuntimeException("USER/UPDATE: Pet not found");
+            throw new RuntimeException("OWNER/UPDATE: Owner not found");
         }
         Owner ownerToUpdate = found_owner.get();
         ownerToUpdate.setImie(owner.getImie());
@@ -47,9 +47,9 @@ public class OwnerService {
     }
     @Transactional
     public void delete(int id){
-        Optional<Owner> found_user = ownerRepository.findById(id);
-        if(found_user.isEmpty()){
-            throw new RuntimeException("OWNER/UPDATE: Pet not found");
+        Optional<Owner> found_owner = ownerRepository.findById(id);
+        if(found_owner.isEmpty()){
+            throw new RuntimeException("OWNER/DELETE: Owner not found");
         }
         System.out.println("Attempting to delete owner with id: " + id);  // Logowanie przed usunięciem
         ownerRepository.deleteById(id);  // Usuwanie zwierzaka

@@ -23,7 +23,7 @@ public class UserService {
     public User findById(int id){
         Optional<User> user = userRepository.findById(id);
         if(user.isEmpty()) {
-            throw new RuntimeException("User not found");
+            throw new RuntimeException("USER/GET: User not found");
         }else{
             return user.get();
         }
@@ -48,7 +48,7 @@ public class UserService {
     public void delete(int id){
         Optional<User> found_user = userRepository.findById(id);
         if(found_user.isEmpty()){
-            throw new RuntimeException("USER/UPDATE: User not found");
+            throw new RuntimeException("USER/DELETE: User not found");
         }
         System.out.println("Attempting to delete user with id: " + id);  // Logowanie przed usunięciem
         userRepository.deleteById(id);  // Usuwanie użytkownika
@@ -60,7 +60,7 @@ public class UserService {
     public void deactivate(int id){
         Optional<User> found_user = userRepository.findById(id);
         if(found_user.isEmpty()){
-            throw new RuntimeException("USER/UPDATE: User not found");
+            throw new RuntimeException("USER/DEACTIVATE: User not found");
         }
         System.out.println("Attempting to deactivate user with id: " + id);  // Logowanie przed usunięciem
         User updatedUser = found_user.get();
