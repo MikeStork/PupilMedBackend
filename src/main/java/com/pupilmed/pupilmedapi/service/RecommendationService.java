@@ -24,7 +24,7 @@ public class RecommendationService {
     public Recommendation findById(int id){
         Optional<Recommendation> recommendation = recommendationRepository.findById(id);
         if(recommendation.isEmpty()) {
-            throw new RuntimeException("PET/GET: Recommendation not found");
+            throw new RuntimeException("RECOMMENDATION/GET: Recommendation not found");
         }else{
             return recommendation.get();
         }
@@ -37,7 +37,7 @@ public class RecommendationService {
     public Recommendation update(Recommendation recommendation){
         Optional<Recommendation> found_recommendation = recommendationRepository.findById(recommendation.getId());
         if(found_recommendation.isEmpty()){
-            throw new RuntimeException("PET/UPDATE: Recommendation not found");
+            throw new RuntimeException("RECOMMENDATION/UPDATE: Recommendation not found");
         }
         Recommendation recommendationToUpdate = found_recommendation.get();
         recommendationToUpdate.setDescription(recommendation.getDescription());
@@ -48,10 +48,10 @@ public class RecommendationService {
     public void delete(int id){
         Optional<Recommendation> found_recommendation = recommendationRepository.findById(id);
         if(found_recommendation.isEmpty()){
-            throw new RuntimeException("PET/DELETE: Recommendation not found");
+            throw new RuntimeException("RECOMMENDATION/DELETE: Recommendation not found");
         }
         System.out.println("Attempting to delete recommendation with id: " + id);  // Logowanie przed usunięciem
-        recommendationRepository.deleteById(id);  // Usuwanie zwierzaka
+        recommendationRepository.deleteById(id);  // Usuwanie zalecenia
         System.out.println("Recommendation with id: " + id + " has been deleted");  // Logowanie po usunięciu
         recommendationRepository.flush();
 
