@@ -18,7 +18,14 @@ public class VisitTypeService {
 
     @Transactional
     public VisitType save(VisitType visitType){
-        return visitTypeRepository.saveAndFlush(visitType);
+
+        Optional<VisitType> FoundVisitType = visitTypeRepository.findById(visitType.getTypWizyty());
+        if(FoundVisitType.isEmpty()) {
+            return visitTypeRepository.saveAndFlush(visitType);
+        }else{
+            throw new RuntimeException("VISITTYPE/POST: VisitType already exists");
+        }
+
     }
     public VisitType findById(String  visitTypeName){
         Optional<VisitType> visitType = visitTypeRepository.findById(visitTypeName);
