@@ -2,6 +2,7 @@ package com.pupilmed.pupilmedapi.controller;
 
 
 import com.pupilmed.pupilmedapi.model.Vet;
+import com.pupilmed.pupilmedapi.model.Visit;
 import com.pupilmed.pupilmedapi.service.VetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 public class VetController {
     @Autowired
     private VetService vetService;
+
 
     @PostMapping("/save")
     public Vet save(@RequestBody Vet vet){
@@ -40,5 +42,6 @@ public class VetController {
             return ResponseEntity.notFound().build();  // Status 404 Not Found, jeśli użytkownik nie został znaleziony
         }
     }
+
 
 }

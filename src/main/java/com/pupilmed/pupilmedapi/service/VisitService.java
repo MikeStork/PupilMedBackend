@@ -5,6 +5,7 @@ import com.pupilmed.pupilmedapi.repository.VisitRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,5 +66,14 @@ public class VisitService {
         System.out.println("Visit with id: " + id + " has been deleted");  // Logowanie po usunięciu
         visitRepository.flush();
 
+    }
+
+    public List<Visit> findAllForVet(Integer vetid) {
+        return visitRepository.findAllByWeterynarzidEquals(vetid);
+    }
+
+
+    public List<Visit> findAllForVetBetweenDates(Integer vetid, LocalDate from, LocalDate to) {
+        return visitRepository.findAllByDataBetweenAndWeterynarzidEquals(from, to, vetid);
     }
 }

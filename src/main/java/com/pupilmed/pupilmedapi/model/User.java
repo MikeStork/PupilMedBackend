@@ -21,12 +21,23 @@ public class User {
     @Column(name = "aktywny")
     private boolean aktywny;
 
+
+    @Column(name = "rola")
+    private String rola;
+
     public int getId() {
         return this.id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+    public String getRola() {
+        return rola;
+    }
+
+    public void setRola(String rola) {
+        this.rola = rola;
     }
 
     // Getter and Setter for numerTelefonu

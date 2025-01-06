@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -38,6 +39,15 @@ public class VisitController {
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();  // Status 404 Not Found, jeśli użytkownik nie został znaleziony
         }
+    }
+    @GetMapping("/findAllForVet/{vetid}")
+    public @ResponseBody List<Visit> findAllForVet(@PathVariable Integer vetid){
+        return visitService.findAllForVet(vetid);
+    }
+
+    @GetMapping("/findAllForVetBetweenDates/{vetid}/{from}/{to}")
+    public @ResponseBody List<Visit> findAllForVetBetweenDates(@PathVariable Integer vetid, @PathVariable LocalDate from, @PathVariable LocalDate to){
+        return visitService.findAllForVetBetweenDates(vetid,from,to);
     }
 
 }

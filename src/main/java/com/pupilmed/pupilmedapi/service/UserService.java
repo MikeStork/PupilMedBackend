@@ -3,6 +3,11 @@ package com.pupilmed.pupilmedapi.service;
 import com.pupilmed.pupilmedapi.model.User;
 import com.pupilmed.pupilmedapi.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +16,12 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+    @Autowired
+    private JWTService jwtService;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -18,8 +29,19 @@ public class UserService {
 
     @Transactional
     public User save(User user){
+        user.setHaslo(encoder.encode(user.getHaslo()));
         return userRepository.save(user);
     }
+
+    public String verify(User user){
+        Authentication authentication =
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getNumerTelefonu(), user.getHaslo()));
+        if(authentication.isAuthenticated()){
+            return jwtService.generateToken(user);
+        }
+        return "Fail";
+    }
+
     public User findById(int id){
         Optional<User> user = userRepository.findById(id);
         if(user.isEmpty()) {
@@ -40,7 +62,7 @@ public class UserService {
         }
         User userToUpdate = found_user.get();
         userToUpdate.setAktywny(user.isAktywny());
-        userToUpdate.setHaslo(user.getHaslo());
+        userToUpdate.setHaslo(encoder.encode(user.getHaslo()));
         userToUpdate.setNumerTelefonu(user.getNumerTelefonu());
         return userRepository.save(userToUpdate);
     }

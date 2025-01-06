@@ -1,6 +1,7 @@
 package com.pupilmed.pupilmedapi.service;
 
 import com.pupilmed.pupilmedapi.model.Vet;
+import com.pupilmed.pupilmedapi.model.Visit;
 import com.pupilmed.pupilmedapi.repository.VetRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -60,4 +61,5 @@ public class VetService {
         vetRepository.flush();
 
     }
+
 }

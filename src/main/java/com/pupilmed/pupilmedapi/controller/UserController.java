@@ -4,6 +4,7 @@ import com.pupilmed.pupilmedapi.model.User;
 import com.pupilmed.pupilmedapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +15,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PostMapping("/login")
+    public String login(@RequestBody User user) {
+        return userService.verify(user);
+    }
     @PostMapping("/save")
     public User save(@RequestBody User user){
         return userService.save(user);
