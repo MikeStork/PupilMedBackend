@@ -1,6 +1,7 @@
 package com.pupilmed.pupilmedapi.controller;
 
-import com.pupilmed.pupilmedapi.model.AdminVisitView;
+import com.pupilmed.pupilmedapi.model.VisitInfoView;
+import com.pupilmed.pupilmedapi.model.VisitView;
 import com.pupilmed.pupilmedapi.model.Visit;
 import com.pupilmed.pupilmedapi.service.VisitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +52,17 @@ public class VisitController {
         return visitService.findAllForVetBetweenDates(vetid,from,to);
     }
     @GetMapping("/mainView/{from}/{to}")
-    public List<AdminVisitView> getVisitsForVetsBetweenDates(@PathVariable LocalDate from, @PathVariable LocalDate to) {
-        return visitService.findAllVisitsBetweenDates(from, to);
+    public List<VisitView> getVisitsForVetsBetweenDates(@PathVariable LocalDate from, @PathVariable LocalDate to) {
+        return visitService.findAllVisitViewsBetweenDates(from, to);
+    }
+    @GetMapping("/findAllForUseridBetweenDates/")
+    public List<VisitInfoView> getVisitsForUseridBetweenDates(@RequestParam Integer userid, @RequestParam LocalDate from, @RequestParam LocalDate to) {
+        return visitService.findAllVisitsByUseridBetweenDates(userid,from, to);
+    }
+
+    @GetMapping("/findAllBetweenDates/")
+    public List<Visit> findAllBetweenDates(@RequestParam LocalDate from, @RequestParam LocalDate to) {
+        return visitService.findAllBetweenDates(from, to);
     }
 
 }

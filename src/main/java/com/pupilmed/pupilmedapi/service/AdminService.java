@@ -12,36 +12,36 @@ import java.util.Optional;
 @Service
 public class AdminService {
     @Autowired
-    AdminVisitViewRepository adminVisitViewRepository;
+    VisitViewRepository visitViewRepository;
 
     @Autowired
-    AdminVisitViewInfoRepository adminVisitViewInfoRepository;
+    VisitViewInfoRepository visitViewInfoRepository;
     @Autowired
-    private AdminPetInfoViewRepository adminPetInfoViewRepository;
+    private PetInfoViewRepository petInfoViewRepository;
     @Autowired
-    private AdminUserInfoViewRepository adminUserInfoViewRepository;
+    private UserInfoViewRepository userInfoViewRepository;
 
-    public List<AdminVisitView> findAllVisitsBetweenDates(LocalDate startDate, LocalDate endDate) {
-        return adminVisitViewRepository.findAllByDataBetween(startDate, endDate);
+    public List<VisitView> findAllVisitsBetweenDates(LocalDate startDate, LocalDate endDate) {
+        return visitViewRepository.findAllByDataBetween(startDate, endDate);
     }
 
-    public AdminVisitInfoView findVisitInfoById(Integer id) {
-        Optional<AdminVisitInfoView> adminVisitInfoView = adminVisitViewInfoRepository.findById(id);
+    public VisitInfoView findVisitInfoById(Integer id) {
+        Optional<VisitInfoView> adminVisitInfoView = visitViewInfoRepository.findById(id);
         if(adminVisitInfoView.isEmpty()) {
             throw new RuntimeException("Visit info not found");
         }
         return adminVisitInfoView.get();
     }
 
-    public AdminPetInfoView findPetInfoById(Integer id) {
-        Optional<AdminPetInfoView> adminPetInfoView = adminPetInfoViewRepository.findById(id);
+    public PetInfoView findPetInfoById(Integer id) {
+        Optional<PetInfoView> adminPetInfoView = petInfoViewRepository.findById(id);
         if(adminPetInfoView.isEmpty()) {
             throw new RuntimeException("Pet info not found");
         }
         return adminPetInfoView.get();
     }
 
-    public List<AdminUserInfoView> findAllUserInfoView() {
-        return adminUserInfoViewRepository.findAll();
+    public List<UserInfoView> findAllUserInfoView() {
+        return userInfoViewRepository.findAll();
     }
 }

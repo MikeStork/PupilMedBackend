@@ -17,21 +17,21 @@ public class AdminController {
     }
 
     @GetMapping("/mainView/{from}/{to}")
-    public List<AdminVisitView> getVisitsForVetsBetweenDates(@PathVariable LocalDate from, @PathVariable LocalDate to) {
+    public List<VisitView> getVisitsForVetsBetweenDates(@PathVariable LocalDate from, @PathVariable LocalDate to) {
         return adminService.findAllVisitsBetweenDates(from, to);
     }
 
     @GetMapping("/visitInfoView/{id}")
-    public AdminVisitInfoView getVisitInfo(@PathVariable Integer id) {
+    public VisitInfoView getVisitInfo(@PathVariable Integer id) {
         return adminService.findVisitInfoById(id);
     }
 
     @GetMapping("/petInfoView/{id}")
-    public AdminPetInfoView getPetInfo(@PathVariable Integer id) {
+    public PetInfoView getPetInfo(@PathVariable Integer id) {
         return adminService.findPetInfoById(id);
     }
     @GetMapping("/usersInfoView")
-    public List<AdminUserInfoView> getUsersInfo() {
+    public List<UserInfoView> getUsersInfo() {
         return adminService.findAllUserInfoView();
     }
 

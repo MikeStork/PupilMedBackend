@@ -107,7 +107,7 @@ public class UserService {
             return 2; // Hasło nie pasuje
         }
         System.out.println("haslo zgodne");
-        user.setHaslo(newPassword);
+        user.setHaslo(encoder.encode(newPassword));
         userRepository.save(user);
         userRepository.flush();
         return 0;

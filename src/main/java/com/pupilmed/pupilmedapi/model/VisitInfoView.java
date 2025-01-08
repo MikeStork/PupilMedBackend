@@ -3,11 +3,12 @@ package com.pupilmed.pupilmedapi.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "informacje_o_wizycie")
-public class AdminVisitInfoView {
+public class VisitInfoView {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "wizyta_id")
@@ -50,9 +51,6 @@ public class AdminVisitInfoView {
     @Column(name = "zalecenia", length = Integer.MAX_VALUE)
     private String zalecenia;
 
-    @Column(name = "zalecenieid")
-    private Integer zalecenieid;
-
     @Column(name = "wlasciciel_id")
     private Integer wlascicielId;
 
@@ -61,6 +59,20 @@ public class AdminVisitInfoView {
 
     @Column(name = "zwierze_id")
     private Integer zwierzeId;
+
+    @Column(name = "data")
+    private LocalDate data;
+
+    @Column(name = "zalecenie_id")
+    private Integer zalecenieId;
+
+    public Integer getZalecenieId() {
+        return zalecenieId;
+    }
+
+    public LocalDate getData() {
+        return data;
+    }
 
     public Integer getZwierzeId() {
         return zwierzeId;
@@ -75,7 +87,7 @@ public class AdminVisitInfoView {
     }
 
     public Integer getZalecenieid() {
-        return zalecenieid;
+        return zalecenieId;
     }
 
     public String getZalecenia() {

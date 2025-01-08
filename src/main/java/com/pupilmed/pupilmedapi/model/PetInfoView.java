@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "informacje_o_zwierzaku")
-public class AdminPetInfoView {
+public class PetInfoView {
     @Id
     @Column(name = "id_zwierzecia")
     private Integer id;

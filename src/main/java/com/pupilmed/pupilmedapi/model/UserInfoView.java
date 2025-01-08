@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "informacje_o_uzytkownikach")
-public class AdminUserInfoView {
+public class UserInfoView {
     @Id
     @Column(name = "id_uzytkownika")
     private Integer idUzytkownika;

@@ -32,10 +32,10 @@ public class Visit {
     private int weterynarzid;
     @Column(name = "zwierzeid")
     private int zwierzeid;
-
     @Nullable
     @Column(name = "zalecenieid", nullable = true)
     private Integer zalecenieid;
+
 
 
     public Integer getId() {

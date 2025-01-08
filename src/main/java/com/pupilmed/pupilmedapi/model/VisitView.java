@@ -3,14 +3,13 @@ package com.pupilmed.pupilmedapi.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import org.hibernate.annotations.View;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "wizyty_administrator")
-public class AdminVisitView {
+public class VisitView {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
