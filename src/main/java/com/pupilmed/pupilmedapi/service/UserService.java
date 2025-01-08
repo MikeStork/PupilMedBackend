@@ -93,4 +93,24 @@ public class UserService {
         userRepository.flush();
 
     }
+
+    @Transactional
+    public Integer changePassword(int id, String password, String newPassword){
+        Optional<User> found_user = userRepository.findById(id);
+        if(found_user.isEmpty()){
+//            throw new RuntimeException("USER/CHANGEPASSWORD: User not found");
+            return 1;
+        }
+        System.out.println("Znaleziono user");
+        User user = found_user.get();
+        if (!encoder.matches(password, user.getHaslo())) {
+            return 2; // Hasło nie pasuje
+        }
+        System.out.println("haslo zgodne");
+        user.setHaslo(newPassword);
+        userRepository.save(user);
+        userRepository.flush();
+        return 0;
+
+    }
 }

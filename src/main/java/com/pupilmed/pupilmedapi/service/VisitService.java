@@ -1,6 +1,8 @@
 package com.pupilmed.pupilmedapi.service;
 
+import com.pupilmed.pupilmedapi.model.AdminVisitView;
 import com.pupilmed.pupilmedapi.model.Visit;
+import com.pupilmed.pupilmedapi.repository.AdminVisitViewRepository;
 import com.pupilmed.pupilmedapi.repository.VisitRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -12,9 +14,11 @@ import java.util.Optional;
 @Service
 public class VisitService {
     private final VisitRepository visitRepository;
+    private final AdminVisitViewRepository adminVisitViewRepository;
 
-    public VisitService(VisitRepository visitRepository) {
+    public VisitService(VisitRepository visitRepository, AdminVisitViewRepository adminVisitViewRepository) {
         this.visitRepository = visitRepository;
+        this.adminVisitViewRepository = adminVisitViewRepository;
     }
 
     @Transactional
@@ -75,5 +79,9 @@ public class VisitService {
 
     public List<Visit> findAllForVetBetweenDates(Integer vetid, LocalDate from, LocalDate to) {
         return visitRepository.findAllByDataBetweenAndWeterynarzidEquals(from, to, vetid);
+    }
+
+    public List<AdminVisitView> findAllVisitsBetweenDates(LocalDate from, LocalDate to) {
+        return adminVisitViewRepository.findAllByDataBetween(from, to);
     }
 }

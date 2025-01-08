@@ -53,4 +53,16 @@ public class UserController {
             return ResponseEntity.notFound().build();  // Status 404 Not Found, jeśli użytkownik nie został znaleziony
         }
     }
+    @PutMapping("/changePassword")
+    public ResponseEntity<String> changePassword(@RequestParam int id, @RequestParam String password, @RequestParam String newPassword){
+        Integer status = userService.changePassword(id, password, newPassword);
+        if (status==0){
+            return ResponseEntity.ok("Password changed");
+        }else if  (status == 1){
+            return ResponseEntity.notFound().build();
+        } else if (status == 2) {
+            return ResponseEntity.badRequest().body("Wrong password");
+        }
+        return ResponseEntity.notFound().build();
+    }
 }

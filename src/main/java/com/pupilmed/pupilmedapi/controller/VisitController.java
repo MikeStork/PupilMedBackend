@@ -1,5 +1,6 @@
 package com.pupilmed.pupilmedapi.controller;
 
+import com.pupilmed.pupilmedapi.model.AdminVisitView;
 import com.pupilmed.pupilmedapi.model.Visit;
 import com.pupilmed.pupilmedapi.service.VisitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,10 @@ public class VisitController {
     @GetMapping("/findAllForVetBetweenDates/{vetid}/{from}/{to}")
     public @ResponseBody List<Visit> findAllForVetBetweenDates(@PathVariable Integer vetid, @PathVariable LocalDate from, @PathVariable LocalDate to){
         return visitService.findAllForVetBetweenDates(vetid,from,to);
+    }
+    @GetMapping("/mainView/{from}/{to}")
+    public List<AdminVisitView> getVisitsForVetsBetweenDates(@PathVariable LocalDate from, @PathVariable LocalDate to) {
+        return visitService.findAllVisitsBetweenDates(from, to);
     }
 
 }
