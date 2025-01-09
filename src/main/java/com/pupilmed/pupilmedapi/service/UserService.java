@@ -1,6 +1,7 @@
 package com.pupilmed.pupilmedapi.service;
 
 import com.pupilmed.pupilmedapi.model.User;
+import com.pupilmed.pupilmedapi.model.UserAuthData;
 import com.pupilmed.pupilmedapi.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +34,22 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public String verify(User user){
+    public UserAuthData verify(String username, String password){
         Authentication authentication =
-                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getNumerTelefonu(), user.getHaslo()));
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         if(authentication.isAuthenticated()){
-            return jwtService.generateToken(user);
+            User user = userRepository.findByNumerTelefonu(username);
+            UserAuthData userAuthData = new UserAuthData();
+            userAuthData.setId(user.getId());
+            userAuthData.setHaslo(user.getHaslo());
+            userAuthData.setNumerTelefonu(user.getNumerTelefonu());
+            userAuthData.setRola(user.getRola());
+            userAuthData.setToken(jwtService.generateToken(user));
+            userAuthData.setAktywny(user.isAktywny());
+//            return jwtService.generateToken(user);
+            return userAuthData;
         }
-        return "Fail";
+        throw new RuntimeException("Invalid username or password");
     }
 
     public User findById(int id){
@@ -50,6 +60,7 @@ public class UserService {
             return user.get();
         }
     }
+
     public List<User> findAll(){
         return userRepository.findAll();
     }

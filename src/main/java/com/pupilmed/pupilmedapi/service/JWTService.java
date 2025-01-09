@@ -4,11 +4,13 @@ import com.pupilmed.pupilmedapi.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
@@ -19,7 +21,9 @@ import java.util.function.Function;
 
 @Service
 public class JWTService {
-    private String secretKey = "";
+
+    @Value("${jwt.secret}")
+    private String secretKey;
 
     public JWTService(){
         try {
@@ -47,11 +51,13 @@ public class JWTService {
                 .compact();
     }
 
+//    private SecretKey getKey() {
+//        byte[] keyBytes = secretKey.getBytes();
+//        return Keys.hmacShaKeyFor(keyBytes);
+//    }
     private SecretKey getKey() {
-        byte[] keyBytes = secretKey.getBytes();
-        return Keys.hmacShaKeyFor(keyBytes);
+        return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
-
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }

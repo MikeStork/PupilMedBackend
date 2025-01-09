@@ -45,8 +45,11 @@ public class JwtFilter extends OncePerRequestFilter {
 
             if(jwtService.validateToken(token, userDetails)){
                 Claims claims = jwtService.extractAllClaims(token);
-                String role = claims.get("roles", String.class); // ROLE_ADMIN lub ROLE_USER
-
+                String role = claims.get("role", String.class); // ROLE_ADMIN lub ROLE_USER
+                System.out.println(role);
+                if (role == null || role.isEmpty()) {
+                    throw new IllegalArgumentException("A granted authority textual representation is required");
+                }
                 List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
 
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);

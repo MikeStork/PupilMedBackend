@@ -1,6 +1,8 @@
 package com.pupilmed.pupilmedapi.controller;
 
 import com.pupilmed.pupilmedapi.model.User;
+import com.pupilmed.pupilmedapi.model.UserAuthData;
+import com.pupilmed.pupilmedapi.model.UserCredentials;
 import com.pupilmed.pupilmedapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +18,8 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/login")
-    public String login(@RequestBody User user) {
-        return userService.verify(user);
+    public UserAuthData login(@RequestBody UserCredentials userCredentials) {
+        return userService.verify(userCredentials.getUsername(), userCredentials.getPassword());
     }
     @PostMapping("/save")
     public User save(@RequestBody User user){
