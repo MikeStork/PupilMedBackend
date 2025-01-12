@@ -2,6 +2,7 @@ package com.pupilmed.pupilmedapi.service;
 
 import com.pupilmed.pupilmedapi.model.*;
 import com.pupilmed.pupilmedapi.repository.*;
+import com.pupilmed.pupilmedapi.service.facades.AdminServiceFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AdminService {
+public class AdminService implements AdminServiceFacade {
     @Autowired
     VisitViewRepository visitViewRepository;
 

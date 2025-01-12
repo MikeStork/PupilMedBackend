@@ -1,11 +1,9 @@
 package com.pupilmed.pupilmedapi.service.factories;
 
-// VisitWithRecommmendationFactory.java
 import com.pupilmed.pupilmedapi.model.Recommendation;
 import com.pupilmed.pupilmedapi.model.Visit;
 import com.pupilmed.pupilmedapi.model.VisitWithRecommendation;
 import com.pupilmed.pupilmedapi.repository.RecommendationRepository;
-import com.pupilmed.pupilmedapi.repository.VisitTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +16,7 @@ public class VisitWithRecommmendationFactory implements VisitFactory {
     public VisitWithRecommmendationFactory(RecommendationRepository recommendationRepository) {
         this.recommendationRepository = recommendationRepository;
     }
+
     @Override
     public VisitWithRecommendation createVisit(Visit visit) {
         VisitWithRecommendation newVisit = new VisitWithRecommendation();
@@ -29,8 +28,11 @@ public class VisitWithRecommmendationFactory implements VisitFactory {
         newVisit.setGodzina(visit.getGodzina());
         newVisit.setZalecenieid(visit.getZalecenieid());
         newVisit.setZwierzeid(visit.getZwierzeid());
-        Recommendation recommendation = recommendationRepository.getById(visit.getZalecenieid());
-        newVisit.setZalecenie(recommendation.getDescription());
+
+        // Obsługa przypadku, gdy rekomendacja nie istnieje
+        recommendationRepository.findById(visit.getZalecenieid())
+                .ifPresent(recommendation -> newVisit.setZalecenie(recommendation.getDescription()));
+
         return newVisit;
     }
 }

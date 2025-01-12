@@ -1,1 +1,8 @@
+C:\Users\bocim\pupilmedapi\src\test\java\com\pupilmed\pupilmedapi\controller\UserControllerTest.java
 C:\Users\bocim\pupilmedapi\src\test\java\com\pupilmed\pupilmedapi\PupilmedapiApplicationTests.java
+C:\Users\bocim\pupilmedapi\src\test\java\com\pupilmed\pupilmedapi\service\facades\AdminServiceFacadeTest.java
+C:\Users\bocim\pupilmedapi\src\test\java\com\pupilmed\pupilmedapi\service\facades\VisitServiceFacadeTest.java
+C:\Users\bocim\pupilmedapi\src\test\java\com\pupilmed\pupilmedapi\service\factories\StandardVisitFactoryTest.java
+C:\Users\bocim\pupilmedapi\src\test\java\com\pupilmed\pupilmedapi\service\factories\VisitWithRecommmendationFactoryTest.java
+C:\Users\bocim\pupilmedapi\src\test\java\com\pupilmed\pupilmedapi\service\filterStrategy\DateRangeVisitFilterStrategyTest.java
+C:\Users\bocim\pupilmedapi\src\test\java\com\pupilmed\pupilmedapi\service\filterStrategy\DefaultVisitFilterStrategyTest.java

@@ -1,5 +1,5 @@
 com\pupilmed\pupilmedapi\model\User.class
 com\pupilmed\pupilmedapi\service\UserService.class
 com\pupilmed\pupilmedapi\repository\UserRepository.class
-com\pupilmed\pupilmedapi\PupilmedapiApplication.class
 com\pupilmed\pupilmedapi\controller\UserController.class
+com\pupilmed\pupilmedapi\PupilmedapiApplication.class

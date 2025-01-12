@@ -1,35 +1,34 @@
 package com.pupilmed.pupilmedapi.service;
 
+import com.pupilmed.pupilmedapi.model.Visit;
 import com.pupilmed.pupilmedapi.model.VisitInfoView;
 import com.pupilmed.pupilmedapi.model.VisitView;
-import com.pupilmed.pupilmedapi.model.Visit;
 import com.pupilmed.pupilmedapi.repository.RecommendationRepository;
+import com.pupilmed.pupilmedapi.repository.VisitRepository;
 import com.pupilmed.pupilmedapi.repository.VisitViewInfoRepository;
 import com.pupilmed.pupilmedapi.repository.VisitViewRepository;
-import com.pupilmed.pupilmedapi.repository.VisitRepository;
+import com.pupilmed.pupilmedapi.service.facades.VisitServiceFacade;
 import com.pupilmed.pupilmedapi.service.factories.StandardVisitFactory;
 import com.pupilmed.pupilmedapi.service.factories.VisitWithRecommmendationFactory;
 import com.pupilmed.pupilmedapi.service.filterStrategy.DateRangeVisitFilterStrategy;
 import com.pupilmed.pupilmedapi.service.filterStrategy.DefaultVisitFilterStrategy;
 import jakarta.transaction.Transactional;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class VisitService {
+public class VisitService implements VisitServiceFacade {
     private final VisitRepository visitRepository;
     private final VisitViewRepository visitViewRepository;
     private final VisitViewInfoRepository visitViewInfoRepository;
     private final RecommendationRepository recommendationRepository;
 
-
-    public VisitService(VisitRepository visitRepository, VisitViewRepository visitViewRepository, VisitViewInfoRepository visitViewInfoRepository, RecommendationRepository recommendationRepository) {
+    public VisitService(VisitRepository visitRepository, VisitViewRepository visitViewRepository,
+                        VisitViewInfoRepository visitViewInfoRepository, RecommendationRepository recommendationRepository) {
         this.visitRepository = visitRepository;
         this.visitViewRepository = visitViewRepository;
         this.visitViewInfoRepository = visitViewInfoRepository;
@@ -38,87 +37,101 @@ public class VisitService {
 
     @Transactional
     public Visit save(Visit visit) {
-//        if (visit.getId() != null && visitRepository.existsById(visit.getId())) {
-//            return visitRepository.save(visit);
-//        } else {
-//            // Nowa encja
-//            visit.setId(null);
-//        }
+        try {
             return visitRepository.save(visit);
+        } catch (Exception e) {
+            throw new RuntimeException("VISIT/SAVE: Error while saving visit", e);
+        }
     }
-    public Visit findById(int id){
-        Optional<Visit> visit = visitRepository.findById(id);
-        if(visit.isEmpty()) {
-            throw new RuntimeException("VISIT/GET: Visit not found");
-        }
-        Visit found_visit = visit.get();
-        if(found_visit.getZalecenieid() == null) {
-            StandardVisitFactory svf = new StandardVisitFactory();
-            return svf.createVisit(found_visit);
-        }else {
-            VisitWithRecommmendationFactory vwrf = new VisitWithRecommmendationFactory(recommendationRepository);
-            return vwrf.createVisit(found_visit);
-        }
 
+    public Visit findById(int id) {
+        return visitRepository.findById(id)
+                .map(visit -> {
+                    if (visit.getZalecenieid() == null) {
+                        return new StandardVisitFactory().createVisit(visit);
+                    } else {
+                        return new VisitWithRecommmendationFactory(recommendationRepository).createVisit(visit);
+                    }
+                })
+                .orElseThrow(() -> new RuntimeException("VISIT/GET: Visit not found with id " + id));
     }
-    public List<Visit> findAll(){
-//        return visitRepository.findAll();
-        List<Visit> visits = visitRepository.findAll();
-        List<Visit> mutableVisits = new ArrayList<>(visits);
-        DefaultVisitFilterStrategy dvfs = new DefaultVisitFilterStrategy();
-        return dvfs.filterVisits(mutableVisits, List.of());
+
+    public List<Visit> findAll() {
+        try {
+            List<Visit> visits = visitRepository.findAll();
+            return new DefaultVisitFilterStrategy().filterVisits(new ArrayList<>(visits), List.of());
+        } catch (Exception e) {
+            throw new RuntimeException("VISIT/GET_ALL: Error while retrieving visits", e);
+        }
     }
 
     @Transactional
-    public Visit update(Visit visit){
-        Optional<Visit> found_visit = visitRepository.findById(visit.getId());
-        if(found_visit.isEmpty()){
-            throw new RuntimeException("VISIT/UPDATE: Visit not found");
-        }
-        Visit visitToUpdate = found_visit.get();
-        visitToUpdate.setCena(visit.getCena());
-        visitToUpdate.setData(visit.getData());
-        visitToUpdate.setGodzina(visit.getGodzina());
-        visitToUpdate.setWeterynarzid(visit.getWeterynarzid());
-        visitToUpdate.setZwierzeid(visit.getZwierzeid());
-        visitToUpdate.setZalecenieid(visit.getZalecenieid());
-        visitToUpdate.setTypWizyty(visit.getTypWizyty());
-        return visitRepository.save(visitToUpdate);
+    public Visit update(Visit visit) {
+        return visitRepository.findById(visit.getId())
+                .map(existingVisit -> {
+                    existingVisit.setCena(visit.getCena());
+                    existingVisit.setData(visit.getData());
+                    existingVisit.setGodzina(visit.getGodzina());
+                    existingVisit.setWeterynarzid(visit.getWeterynarzid());
+                    existingVisit.setZwierzeid(visit.getZwierzeid());
+                    existingVisit.setZalecenieid(visit.getZalecenieid());
+                    existingVisit.setTypWizyty(visit.getTypWizyty());
+                    return visitRepository.save(existingVisit);
+                })
+                .orElseThrow(() -> new RuntimeException("VISIT/UPDATE: Visit not found with id " + visit.getId()));
     }
-    @Transactional
-    public void delete(int id){
-        Optional<Visit> found_visit = visitRepository.findById(id);
-        if(found_visit.isEmpty()){
-            throw new RuntimeException("VISIT/DELETE: Visit not found");
-        }
-        System.out.println("Attempting to delete visit with id: " + id);  // Logowanie przed usunięciem
-        visitRepository.deleteById(id);  // Usuwanie wizyty
-        System.out.println("Visit with id: " + id + " has been deleted");  // Logowanie po usunięciu
-        visitRepository.flush();
 
+    @Transactional
+    public void delete(int id) {
+        if (!visitRepository.existsById(id)) {
+            throw new RuntimeException("VISIT/DELETE: Visit not found with id " + id);
+        }
+        try {
+            visitRepository.deleteById(id);
+            visitRepository.flush();
+        } catch (Exception e) {
+            throw new RuntimeException("VISIT/DELETE: Error while deleting visit with id " + id, e);
+        }
     }
 
     public List<Visit> findAllForVet(Integer vetid) {
-        return visitRepository.findAllByWeterynarzidEquals(vetid);
+        try {
+            return visitRepository.findAllByWeterynarzidEquals(vetid);
+        } catch (Exception e) {
+            throw new RuntimeException("VISIT/GET_FOR_VET: Error while retrieving visits for vet id " + vetid, e);
+        }
     }
 
-
     public List<Visit> findAllForVetBetweenDates(Integer vetid, LocalDate from, LocalDate to) {
-        return visitRepository.findAllByDataBetweenAndWeterynarzidEquals(from, to, vetid);
+        try {
+            return visitRepository.findAllByDataBetweenAndWeterynarzidEquals(from, to, vetid);
+        } catch (Exception e) {
+            throw new RuntimeException("VISIT/GET_FOR_VET_DATES: Error while retrieving visits for vet id " + vetid + " between " + from + " and " + to, e);
+        }
     }
 
     public List<VisitView> findAllVisitViewsBetweenDates(LocalDate from, LocalDate to) {
-        return visitViewRepository.findAllByDataBetween(from, to);
+        try {
+            return visitViewRepository.findAllByDataBetween(from, to);
+        } catch (Exception e) {
+            throw new RuntimeException("VISIT/GET_VIEWS_BETWEEN_DATES: Error while retrieving visit views", e);
+        }
     }
 
     public List<VisitInfoView> findAllVisitsByUseridBetweenDates(Integer userid, LocalDate from, LocalDate to) {
-        return visitViewInfoRepository.findAllByWlascicielIdAndDataBetween(userid, from, to);
-    }
-    public List<Visit> findAllBetweenDates(LocalDate from, LocalDate to) {
-        List<Visit> visits = visitRepository.findAll();
-        List<Visit> mutableVisits = new ArrayList<>(visits);
-        DateRangeVisitFilterStrategy drvfs = new DateRangeVisitFilterStrategy();
-        return drvfs.filterVisits(mutableVisits, List.of(from,to));
+        try {
+            return visitViewInfoRepository.findAllByWlascicielIdAndDataBetween(userid, from, to);
+        } catch (Exception e) {
+            throw new RuntimeException("VISIT/GET_BY_USER_BETWEEN_DATES: Error while retrieving visits for user id " + userid, e);
+        }
     }
 
+    public List<Visit> findAllBetweenDates(LocalDate from, LocalDate to) {
+        try {
+            List<Visit> visits = visitRepository.findAll();
+            return new DateRangeVisitFilterStrategy().filterVisits(new ArrayList<>(visits), List.of(from, to));
+        } catch (Exception e) {
+            throw new RuntimeException("VISIT/GET_BETWEEN_DATES: Error while retrieving visits between " + from + " and " + to, e);
+        }
+    }
 }
