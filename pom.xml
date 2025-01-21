@@ -54,9 +54,17 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.fitnesse</groupId>
+			<artifactId>fitnesse-standalone</artifactId>
+			<version>20241207</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/libs/fitnesse-standalone.jar</systemPath>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
@@ -136,6 +144,31 @@
 					</excludes>
 				</configuration>
 			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.codehaus.mojo</groupId>-->
+<!--				<artifactId>exec-maven-plugin</artifactId>-->
+<!--				<version>3.0.0</version>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<id>run-fitnesse</id>-->
+<!--						<phase>test</phase>-->
+<!--						<goals>-->
+<!--							<goal>java</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<mainClass>fitnesseMain.FitNesseMain</mainClass>-->
+<!--							<classpathScope>test</classpathScope>-->
+<!--							<arguments>-->
+<!--								<argument>-p</argument>-->
+<!--								<argument>8081</argument>-->
+<!--								<argument>-d</argument>-->
+<!--								<argument>${project.basedir}/FitNesseRoot</argument>-->
+<!--							</arguments>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
+
 		</plugins>
 	</build>
 
