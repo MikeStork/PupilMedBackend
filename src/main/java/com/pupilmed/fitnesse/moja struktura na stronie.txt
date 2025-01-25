@@ -1,0 +1,12 @@
+na frontpage dodałem od razu bez suite static page
+o nazwie SetUp czyli takiej jak moja klasa
+i wrzuciłem tam kontent z "plik SetUp na strone.txt"
+potem na frontpage dodałem plik test page z kontentem "plik testu na strone.txt"
+następnie zrobiłem mvn clean; mvn install
+i dopiero uruchomiłem fitnesse standalone
+w komendzie wrzuciłem ścieżki do pakietu z fitnesse standalone:
+C:/Users/bocim/pupilmedapi/libs/fitnesse-standalone.jar;
+oraz do plików .class w target/classes:
+C:/Users/bocim/pupilmedapi/target/classes
+
+Pamiętajcie żeby podmienić ścieżki odpowiednio do waszych miejsc w projekcie

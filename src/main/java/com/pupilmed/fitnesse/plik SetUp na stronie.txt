@@ -1,0 +1,3 @@
+!define EXPECTED_CLASSPATH {C:/Users/bocim/pupilmedapi/target/classes}
+!define TEST_SYSTEM {slim}
+!path C:/Users/bocim/pupilmedapi/target/classes

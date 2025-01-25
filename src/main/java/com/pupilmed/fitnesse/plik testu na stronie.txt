@@ -1,0 +1,39 @@
+!define TEST_SYSTEM {slim}
+!path C:/Users/bocim/pupilmedapi/target/classes
+
+!|import|
+|com.pupilmed.pupilmedapi.model|
+|com.pupilmed.pupilmedapi.service.filterStrategy|
+|com.pupilmed.fitnesse|
+
+Ilość wizyt pomiędzy datami
+!|DateRangeVisitFilterFixture|
+|startDate  |endDate    |getFilteredVisits?|
+|2025-01-01|2025-01-31 |2              |
+|2025-02-01|2025-02-28 |1              |
+|2025-03-01|2025-03-31 |0              |
+|2024-12-01|2025-01-15 |2              |
+
+Daty graniczne
+!|DateRangeVisitFilterFixture|
+|startDate  |endDate    |getFilteredVisits?|
+|2025-01-01|2025-01-01 |1             |
+|2025-01-10|2025-01-10 |1             |
+|2025-02-01|2025-02-01 |1             |
+|2025-02-01|2025-02-28 |1             |
+
+Brak wizyt w przedziale czasowym
+!|DateRangeVisitFilterFixture|
+|startDate  |endDate    |getFilteredVisits?|validateDates?|
+|2025-01-01|2023-01-31 |0|Validation failed: StartDate must not be after EndDate|
+
+Błędne daty (oczekiwane wyjątki)
+!|DateRangeVisitFilterFixture|
+|startDate  |endDate    |validateDates?|
+|           |2025-01-31 |Validation failed: StartDate must not be null or empty     |
+|2025-01-01|            |Validation failed: EndDate must not be null or empty|
+|2025-02-01|2025-01-01  |Validation failed: StartDate must not be after EndDate|
+|abcd       |2025-01-31 |Validation failed: Text 'abcd' could not be parsed at index 0|
+|2025-01-01|abcd        |Validation failed: Text 'abcd' could not be parsed at index 0|
+
+

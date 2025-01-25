@@ -66,10 +66,10 @@ class DateRangeVisitFilterStrategyTest {
 
         Exception exception1 = assertThrows(IllegalArgumentException.class, () ->
                 strategy.filterVisits(visits, Collections.singletonList(LocalDate.of(2024, 1, 1))));
-        assertEquals("DateRangeVisitFilterStrategy requires two LocalDate parameters.", exception1.getMessage());
+        assertEquals("DateRangeVisitFilterStrategy requires exactly two LocalDate parameters.", exception1.getMessage());
 
         Exception exception2 = assertThrows(IllegalArgumentException.class, () ->
                 strategy.filterVisits(visits, Arrays.asList(LocalDate.of(2024, 1, 1), "not a date")));
-        assertEquals("DateRangeVisitFilterStrategy requires two LocalDate parameters.", exception2.getMessage());
+        assertEquals("DateRangeVisitFilterStrategy requires both parameters to be instances of LocalDate.", exception2.getMessage());
     }
 }

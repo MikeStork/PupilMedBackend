@@ -1,0 +1,1 @@
+java -cp "C:/Users/bocim/pupilmedapi/libs/fitnesse-standalone.jar;C:/Users/bocim/pupilmedapi/target/classes" fitnesseMain.FitNesseMain -p 8081 -v
